@@ -1,0 +1,4 @@
+node_modules
+# 苹果电脑需要的
+.DS_Store
+
