@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>综合案例-记事本</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <!-- 
+    功能需求：
+    1. 列表渲染
+    2. 删除功能
+    3. 添加功能
+    4. 底部统计 和 清空
+   -->
+  <!-- 主体区域 -->
+<section id="app">
+  <!-- 输入框 -->
+  <header class="header">
+    <h1>记事本</h1>
+    <input placeholder="请输入任务" class="new-todo" />
+    <button class="add">添加任务</button>
+  </header>
+  <!-- 列表区域 -->
+  <section class="main">
+    <ul class="todo-list">
+      <li class="todo">
+        <div class="view">
+          <span class="index">1.</span> <label>吃饭饭</label>
+          <button class="destroy"></button>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <!-- 统计和清空 -->
+  <footer class="footer">
+    <!-- 统计 -->
+    <span class="todo-count">合 计:<strong> 1 </strong></span>
+    <!-- 清空 -->
+    <button class="clear-completed">
+      清空任务
+    </button>
+  </footer>
+</section>
+  <script src="../vue.js"></script>
+  <script>
+    new Vue({
+      el: "app",
+
+    })
+  </script>
+</body>
+</html>

@@ -63,5 +63,5 @@ myChart.setOption({
 
 # API
 
-![image-20230730235308215](https://gitee.com/luying61/note-pic/raw/master/picture/image-20230730235308215.png)
+<img src="https://gitee.com/luying61/note-pic/raw/master/picture/image-20230730235308215.png" alt="image-20230730235308215" style="zoom: 80%;" />
 

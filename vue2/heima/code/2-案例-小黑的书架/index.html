@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>案例2-小黑的书架</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>小黑的书架</h2>
+      <ul>
+        <li v-for="(item, index) in list" :key="item.index">
+          <span>{{item.book}}</span>
+          <span>{{item.author}}</span>
+          <button @click="handleClick(index)">删除</button>
+        </li>
+      </ul>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          list: [
+            {
+              book: "《红楼梦》",
+              author: "曹雪芹",
+            },
+            {
+              book: "《西游记》",
+              author: "吴承恩",
+            },
+            {
+              book: "《水浒传》",
+              author: "施耐庵",
+            },
+            {
+              book: "《三国演义》",
+              author: "罗贯中",
+            },
+          ],
+        },
+        methods: {
+          handleClick(index) {
+            return this.list.splice(index, 1);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
