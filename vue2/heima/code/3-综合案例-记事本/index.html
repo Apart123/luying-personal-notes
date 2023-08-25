@@ -60,6 +60,7 @@
           this.todo = "";
         },
         handleClear() {
+          if(this.list.length === 0) return;
           this.list = [];
         },
         handleDestroy(index) {
