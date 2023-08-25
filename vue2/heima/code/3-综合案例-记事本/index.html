@@ -19,16 +19,16 @@
   <!-- 输入框 -->
   <header class="header">
     <h1>记事本</h1>
-    <input placeholder="请输入任务" class="new-todo" />
-    <button class="add">添加任务</button>
+    <input v-model="todo" placeholde="请输入任务" class="new-todo" />
+    <button class="add" @click="handleAdd(todo)">添加任务</button>
   </header>
   <!-- 列表区域 -->
   <section class="main">
     <ul class="todo-list">
-      <li class="todo">
+      <li class="todo" v-for="(todo, index) in list">
         <div class="view">
-          <span class="index">1.</span> <label>吃饭饭</label>
-          <button class="destroy"></button>
+          <span class="index">{{index + 1 + `.`}}</span> <label>{{todo}}</label>
+          <button class="destroy" @click="handleDestroy(index)"></button>
         </div>
       </li>
     </ul>
@@ -36,9 +36,9 @@
   <!-- 统计和清空 -->
   <footer class="footer">
     <!-- 统计 -->
-    <span class="todo-count">合 计:<strong> 1 </strong></span>
+    <span class="todo-count">合 计:<strong> {{list.length}} </strong></span>
     <!-- 清空 -->
-    <button class="clear-completed">
+    <button class="clear-completed" @click="handleClear">
       清空任务
     </button>
   </footer>
@@ -46,8 +46,26 @@
   <script src="../vue.js"></script>
   <script>
     new Vue({
-      el: "app",
-
+      el: "#app",
+      data() {
+        return{
+          list: ["早起", "阅读"],
+          todo: ""
+        }
+      },
+      methods: {
+        handleAdd(todo) {
+          if(this.todo === "") return;
+          this.list.push(todo);
+          this.todo = "";
+        },
+        handleClear() {
+          this.list = [];
+        },
+        handleDestroy(index) {
+          this.list.splice(index, 1)
+        }
+      }
     })
   </script>
 </body>
