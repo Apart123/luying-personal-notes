@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./js/echarts.js"></script>
+    <style>
+      div {
+        width: 600px;
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chart1"></div>
+    <script>
+      const div1 = document.querySelector(".chart1");
+      const myEchart1 = echarts.init(div1);
+      myEchart1.setOption({  // 配置图表的参数
+        title: {   // 标题组件
+          show: true,    // 是否显示标题组件
+          // text: "柱状图\n各地域销量",
+          text: "Sales by Geography",   // 主标题文本
+          link: "https://echarts.apache.org/zh/option.html#title.link",    // 主标题文本超链接
+          // target: "self",   // 指定窗口打开主标题超链接。
+          textStyle: {
+            color: "#999",
+            fontStyle: "normal",
+            fontWeight: "bolder",
+            fontFamily: "monospace",
+            fontSize: 20,
+            lineHeight: 30,
+            textBorderColor: "blue",
+            textBorderWidth: 2,
+            textBorderType: "solid",
+            textShadowColor: "rgba(0, 0, 0, 0.5)",
+            textShadowBlur: 10,
+            textShadowOffsetX: 10,
+            textShadowOffsetY: 10,
+            // overflow: "truncate",  // 文字超出宽度是否截断或者换行。
+            // ellipsis: "***",
+            // textBorderType: [5, 4]
+            // textBorderDashOffset: 5  // Unexpected identifier 'textBorderDashOffset'
+            // width: 80,
+            // height:,
+            // rich:{},
+          },
+          subtext: "各地域销量",
+          sublink: "https://echarts.apache.org/zh/option.html#title.sublink",
+          // subtarget: "blank",
+          subtextStyle: {
+            // 同 textStyle
+          },
+          // textAlign: "center",  // auto, left, center, right
+          // textVerticalAlign: "top",
+          // triggerEvent: false,   // 是否触发事件：true, false
+          padding: [20, 25, 15, 20],
+          itemGap: 30,
+          // zlevel: -2,
+          // z: -2,
+          // left: "right",
+          top: 10,
+          right: 6,
+          // bottom:,
+          backgroundColor: "rgba(128, 128, 128, 0.5)",
+          borderColor: "#000",
+          borderWidth: 3,
+          borderRadius: [15, 20, 25, 30],
+          shadowBlur: 10,
+          shadowColor: "rgba(128, 128, 128, 0.5)",
+          shadowOffsetX: 20,
+          shadowOffsetY: 20,
+
+        },
+        legend: {  // 图例
+          data: ["销量"],
+        },
+        xAxis: {   // x轴的配置
+          data: ["成都", "广安", "绵阳", "德阳", "南充", "广元", "遂宁", "自贡", "内江", "雅安"],
+        },
+        yAxis: {   // y轴的配置
+        },
+        series: {   // 系列列表
+          name: "销量",
+          type: "bar",  // 图表的类型
+          data: [45, 23, 45, 43, 13, 65, 19, 32, 78, 6],  // 图表的数据
+        }
+      })
+
+    </script>
+  </body>
+</html>
