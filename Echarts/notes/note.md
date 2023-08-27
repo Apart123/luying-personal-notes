@@ -233,5 +233,100 @@ myChart.setOption({
 
 ## legend
 
-- 
+图例组件。
+
+- type：图例的类型。
+
+  - `'plain'`(普通图例)、`'scroll'`(可滚动翻页的图例)
+
+- id：组件 ID。
+
+- show：boolean，是否展示。
+
+- zlevel：number，所有图形的zlevel值。
+
+- z
+
+- left
+
+- top
+
+- right
+
+- bottom
+
+- width
+
+- height
+
+- orient：string，图例列表的布局朝向。
+
+  - `'horizontal'`、`'vertical'`
+
+- align：string，图例标记和文本的对齐。
+
+  - `'auto'`、`'left'`、`'right'`
+
+- padding：number，图例内边距。
+
+- itemGap：number，图例每项之间的间隔。
+
+- itemWidth：number，图例标记的图形宽度。
+
+- itemHeight：number，图例标记的图形高度。
+
+- itemStyle：Object
+
+- lineStyle
+
+- symbolRotate
+
+- formatter：string|Function，格式化图例文本。
+
+- selectedMode：string|boolean，图例的选择模式。
+
+- inactiveColor：图例关闭时的颜色。
+
+- inactiveBorderColor：图例关闭时的描边颜色。
+
+- selected：Object，图例选中状态表。
+
+  - ```js
+    selected: {
+        // 选中'系列1'
+        '系列1': true,
+        // 不选中'系列2'
+        '系列2': false
+    }
+    ```
+
+- textStyle：Object
+
+- icon
+
+- data：Array
+
+- 以下在`type = 'scroll'`时有效
+
+  - <img src="https://gitee.com/luying61/note-pic/raw/master/picture/image-20230827225311564.png" alt="image-20230827225311564" style="zoom:67%;" />
+
+
+- animation：boolean，图例翻页是否使用动画。
+
+- animationDurationUpdate：number，图例翻页时的动画时长。
+
+
+
+## grid
+
+- show：boolean，是否显示直角坐标系网格。默认`false`。
+- containerLabel：grid 区域是否包含坐标轴的[刻度标签](https://echarts.apache.org/zh/option.html#yAxis.axisLabel)。
+- 在`show: true`时生效。
+  - <img src="https://gitee.com/luying61/note-pic/raw/master/picture/image-20230827233357312.png" alt="image-20230827233357312" style="zoom:80%;" />
+
+
+
+
+
+# 坐标轴
 
