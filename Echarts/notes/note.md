@@ -321,7 +321,7 @@ myChart.setOption({
 
 - show：boolean，是否显示直角坐标系网格。默认`false`。
 - containerLabel：grid 区域是否包含坐标轴的[刻度标签](https://echarts.apache.org/zh/option.html#yAxis.axisLabel)。
-- 在`show: true`时生效。
+- 以下 在`show: true`时生效。
   - <img src="https://gitee.com/luying61/note-pic/raw/master/picture/image-20230827233357312.png" alt="image-20230827233357312" style="zoom:80%;" />
 
 
@@ -329,4 +329,6 @@ myChart.setOption({
 
 
 # 坐标轴
+
+## xAxis
 
