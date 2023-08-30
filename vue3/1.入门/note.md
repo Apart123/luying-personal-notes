@@ -100,3 +100,22 @@ app.mount('#app');
 - *setup* 函数在所有生命周期钩子函数之前调用
 - *setup* 中 *count* 是一个对象；实例代理中，*count*是一个 *count.value*
 
+
+
+# 案例
+
+## 新增任务
+
+本地存储
+
+
+
+ ## 任务筛选
+
+hash => 筛选方式 => 筛选列表
+
+composition/useFilter.js
+
+默认：all
+
+已完成：completed
