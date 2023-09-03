@@ -128,10 +128,55 @@ app.mount('#app');
 
 1. 将内存中的数据(任务)渲染到页面
 
+任务列表是将筛选后的结果渲染到页面上
+
 hash => 筛选方式 => 筛选列表
 
-composition/useFilter.js
+- 筛选方式：
 
-默认：all
+​	全部：all   ==> 没有 hash 默认显示 all
 
-已完成：completed
+​	未完成：active
+
+​	 已完成：completed
+
+
+
+- useFilter
+
+
+
+## 修改和删除
+
+**修改**
+
+完成修改：失去焦点、按下回车
+
+取消修改：esc
+
+全部完成
+
+
+
+- useEditTodo
+
+
+
+**删除**
+
+删除当前任务
+
+删除所有已完成任务
+
+
+
+- useRemoveTodo
+
+
+
+没有任何任务的时候 不显示*footer*元素
+
+
+
+# vite 原理
+
