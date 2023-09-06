@@ -78,7 +78,7 @@
 
 > 微信公众平台的作用：小程序打包上线之后后期的维护、以及获取创建小程序的 *AppID* 
 
-### 使用
+## 使用
 
 **必选项处理**
 
@@ -120,7 +120,7 @@
 
 
 
-### 小程序基本操作
+## 小程序基本操作
 
 - **配置信息**
 
@@ -166,91 +166,6 @@
     }
     ```
 
-- **全局生命周期函数**
-
-  ```js
-    /**
-     * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
-     */
-    onLaunch: function () {
-      
-    },
-  
-    /**
-     * 当小程序启动，或从后台进入前台显示，会触发 onShow
-     */
-    onShow: function (options) {
-      
-    },
-  
-    /**
-     * 当小程序从前台进入后台，会触发 onHide
-     */
-    onHide: function () {
-      
-    },
-  
-    /**
-     * 当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
-     */
-    onError: function (msg) {
-      
-    }
-  ```
-
-  - **页面生命周期函数** -> https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page-life-cycle.html
-
-  ```js
-   onLoad: function(options) {
-      // 页面创建时执行
-    },
-    onShow: function() {
-      // 页面出现在前台时执行
-    },
-    onReady: function() {
-      // 页面首次渲染完毕时执行
-    },
-    onHide: function() {
-      // 页面从前台变为后台时执行
-    },
-    onUnload: function() {
-      // 页面销毁时执行
-    },
-    onPullDownRefresh: function() {
-      // 触发下拉刷新时执行
-    },
-    onReachBottom: function() {
-      // 页面触底时执行
-    },
-    onShareAppMessage: function () {
-      // 页面被用户分享时执行
-    },
-    onPageScroll: function() {
-      // 页面滚动时执行
-    },
-    onResize: function() {
-      // 页面尺寸变化时执行
-    }
-  ```
-
-- **组件生命周期**->https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html
-
-  ```js
-  Component({
-    lifetimes:{
-      created() {
-        console.log('created,组件实例刚刚被创建好时， created 生命周期被触发')
-      },
-      attached() {
-        console.log('组件实力进入页面节点树时候进行执行');
-      },
-      detached() {
-        console.log('在组件实例被从页面节点树移除时执行');
-      }
-    }
-  })
-  ```
-
   
 
 - **界面跳转**
@@ -258,8 +173,8 @@
   - 新界面打开=>https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html
 
     ```js
-    调用 API wx.navigateTo
-    使用组件 <navigator open-type="navigateTo"/>
+    调用 API wx.navigateTo  // 编程时跳转
+    使用组件 <navigator open-type="navigateTo" url="跳转的链接地址"/>
     ```
 
   - 页面重定向
@@ -291,6 +206,8 @@
     调用 API wx.reLaunch
     使用组件 <navigator open-type="reLaunch"/>
     ```
+    
+    > open-type 属性，一定要写
 
 - **数据绑定**
 
@@ -325,11 +242,37 @@
 - **列表渲染**
 
   ```html
-  <view wx:for="{{list}}" wx:for-index="idx" wx:for-item="itemName">
-    {{idx}}: {{itemName.name}}
+  <view wx:for="{{list}}">
+    {{item}}-{{index}}
   </view>
   ```
 
+  ```js
+  Page({
+      data: {
+          list: ["a", "b"],
+      }
+  })
+  ```
+  
+  ```shell
+  # 渲染结果
+  a-0
+  b-1
+  ```
+  
+  
+  
+  ```html
+  <view wx:for="{{list}}" wx:for-index="idx" wx:for-item="itemName">
+     <!--
+  	wx:for-index="idx"	将每一项的索引 index 修改为 idx
+  	wx:for-item="itemName" 将每一项 item 修改为 itemName
+  	-->
+    {{idx}}: {{itemName.name}}
+  </view>
+  ```
+  
   ```js
   Page({
     data: {
@@ -340,5 +283,120 @@
     }
   })
   ```
-
   
+
+
+
+> 使用 bindtap 绑定点击事件
+
+## 在小程序中使用组件
+
+1. 定义组件
+2. 引用组件
+3. 使用组件
+
+![image-20230906231348719](https://gitee.com/luying61/note-pic/raw/master/picture/image-20230906231348719.png)
+
+## 生命周期
+
+### 全局生命周期函数
+
+```js
+ /**
+   * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
+   */
+  onLaunch: function () {
+    
+  },
+
+  /**
+   * 当小程序启动，或从后台进入前台显示，会触发 onShow
+   */
+  onShow: function (options) {
+    
+  },
+
+  /**
+   * 当小程序从前台进入后台，会触发 onHide
+   */
+  onHide: function () {
+    
+  },
+
+  /**
+   * 当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
+   */
+  onError: function (msg) {
+    
+  }
+```
+
+
+
+### 页面生命周期函数
+
+> https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html
+
+```js
+ onLoad: function(options) {
+    // 页面创建时执行
+  },
+  onShow: function() {
+    // 页面出现在前台时执行
+  },
+  onReady: function() {
+    // 页面首次渲染完毕时执行
+  },
+  onHide: function() {
+    // 页面从前台变为后台时执行
+  },
+  onUnload: function() {
+    // 页面销毁时执行
+  },
+  onPullDownRefresh: function() {
+    // 触发下拉刷新时执行
+  },
+  onReachBottom: function() {
+    // 页面触底时执行
+  },
+  onShareAppMessage: function () {
+    // 页面被用户分享时执行
+  },
+  onPageScroll: function() {
+    // 页面滚动时执行
+  },
+  onResize: function() {
+    // 页面尺寸变化时执行
+  }
+```
+
+
+
+### 组件生命周期
+
+> https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/lifetimes.html
+
+```js
+Component({
+  lifetimes:{
+    // created，组件实例刚刚被创建好时， created 生命周期被触发
+    created() {
+      console.log('created')
+    },
+    // attached，组件实力进入页面节点树时候进行执行
+    attached() {
+      console.log('attached');
+    },
+    // detached，在组件实例被从页面节点树移除时执行
+    detached() {
+      console.log('detached');
+    }
+  }
+})
+```
+
+
+
+### 生命周期执行顺序
+
+![image-20230906232201265](https://gitee.com/luying61/note-pic/raw/master/picture/image-20230906232201265.png)
