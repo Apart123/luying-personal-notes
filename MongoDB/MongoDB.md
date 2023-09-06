@@ -417,3 +417,37 @@ module.exports = mongoose.model("Operation", operationSchema);
 module.exports = ["登录", "注销", "阅读文章"];
 ```
 
+
+
+# CRUD
+
+
+
+## 新增文档
+
+## mongodb 原生操作
+
+
+
+
+
+### mongoose 操作
+
+
+
+
+
+## 文档查询
+
+
+
+
+
+## 文档更新
+
+
+
+
+
+## 删除文档
+
