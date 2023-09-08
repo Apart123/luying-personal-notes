@@ -102,6 +102,9 @@ try {
     NavBar: function () {
       return __webpack_require__.e(/*! import() | components/NavBar/NavBar */ "components/NavBar/NavBar").then(__webpack_require__.bind(null, /*! @/components/NavBar/NavBar.vue */ 64))
     },
+    TabBar: function () {
+      return __webpack_require__.e(/*! import() | components/TabBar/TabBar */ "components/TabBar/TabBar").then(__webpack_require__.bind(null, /*! @/components/TabBar/TabBar.vue */ 88))
+    },
   }
 } catch (e) {
   if (
@@ -157,7 +160,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(uniCloud) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -170,16 +173,29 @@ exports.default = void 0;
 //
 //
 //
-//
-//
 var _default = {
-  data: function data() {
-    return {};
+  onLoad: function onLoad() {
+    this._intiLabelList();
   },
-  onLoad: function onLoad() {},
-  methods: {}
+  data: function data() {
+    return {
+      labelList: []
+    };
+  },
+  methods: {
+    _intiLabelList: function _intiLabelList() {
+      var _this = this;
+      uniCloud.callFunction({
+        name: "get_label_list",
+        success: function success(res) {
+          _this.labelList = res.result.labelList;
+        }
+      });
+    }
+  }
 };
 exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 27)["default"]))
 
 /***/ })
 
