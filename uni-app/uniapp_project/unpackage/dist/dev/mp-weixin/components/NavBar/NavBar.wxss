@@ -1,0 +1,50 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* 全局系统样式定义 */
+.nav-bar .nav-bar-top.data-v-6e9cc378 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  background-color: #f25037;
+  padding: 0rpx 30rpx 20rpx;
+  box-sizing: border-box;
+}
+.nav-bar .nav-bar-top .nav-bar-content.data-v-6e9cc378 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  height: 60rpx;
+  background-color: #fff;
+  border-radius: 30rpx;
+  flex-grow: 1;
+  padding-left: 20rpx;
+}
+.nav-bar .nav-bar-top .nav-bar-content .nav-bar-seatch-txt.data-v-6e9cc378 {
+  font-size: 28rpx;
+  color: #999;
+  margin-left: 20rpx;
+}
+

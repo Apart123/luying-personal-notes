@@ -1,9 +1,6 @@
 <template>
-	<view class="home-container">
-		<NavBar></NavBar>
-		<view v-for="(item,index) in 100" :key="index">
-			{{item}}
-		</view>
+	<view>
+		search page
 	</view>
 </template>
 
@@ -14,14 +11,12 @@
 				
 			}
 		},
-		onLoad() {
-
-		},
 		methods: {
-
+			
 		}
 	}
 </script>
 
 <style>
+
 </style>
