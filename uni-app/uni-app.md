@@ -984,7 +984,7 @@ const db = uniCloud.database()
 
 #### 2. 获取数据库集合引用
 
-```
+```js
 const collection = db.collection('unicloud-test-714') // uncloud-test-714 为数据表名称
 ```
 
