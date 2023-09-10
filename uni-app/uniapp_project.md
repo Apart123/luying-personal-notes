@@ -206,3 +206,208 @@
 
 
 
+# 导航栏制作适配多端
+
+## 一、导航栏组件创建
+
+1. 定义导航栏组件
+
+2. 引入导航栏组件
+
+   ![image-20230213105942614](https://duyi-bucket.oss-cn-beijing.aliyuncs.com/uni/202302131059734.png)
+
+
+> 同名组件支持easycomment，不需要使用import方式进行导入即可使用
+
+3. 结构搭建
+
+   1. 图标使用
+
+      uni-icons图标插件安装：[https://ext.dcloud.net.cn/plugin?id=28](https://ext.dcloud.net.cn/plugin?id=28)
+
+4. 处理小程序显示错位问题
+
+   **微信及APP应用实现状态栏高度占位处理**
+
+   方法参考地址：[https://uniapp.dcloud.io/api/system/info?id=getsysteminfosync](https://uniapp.dcloud.io/api/system/info?id=getsysteminfosync)
+
+   ![image-20230213110250401](https://duyi-bucket.oss-cn-beijing.aliyuncs.com/uni/202302131102450.png)
+
+   **微信小程序胶囊信息获取**
+
+   文档参考地址:[https://uniapp.dcloud.io/api/ui/menuButton?id=getmenubuttonboundingclientrect](https://uniapp.dcloud.io/api/ui/menuButton?id=getmenubuttonboundingclientrect)
+
+   ![image-20230213110201536](https://duyi-bucket.oss-cn-beijing.aliyuncs.com/uni/202302131102606.png)
+
+
+
+# 选项卡制作
+
+![image-20230213111015648](https://duyi-bucket.oss-cn-beijing.aliyuncs.com/uni/202302131110721.png)
+
+## 一 、组件创建
+
+> 1. 定义组件TabBar
+> 2. index界面首页面进行组建引入
+
+## 二、scroll-view组件使用
+
+参考文档地址：https://uniapp.dcloud.io/component/scroll-view
+
+> 使用scroll-view横向滚动的时候，需要注意，内部需添加一个容器对里面的滚动内容进行包裹
+
+```vue
+ <scroll-view class="tab-scroll" scroll-x="true">
+      <view class="tab-scroll-box">
+        <view v-for="(item, index) in navList" :key="index" class="tab-scroll-item">{{ item }}</view>
+      </view>
+ </scroll-view>
+```
+
+## 三、点击设置按钮跳转到标签设置界面
+
+```vue
+ <view class="tab-icons">
+      <uni-icons @click="goLabelAdmin" type="gear" size="26" color="#666"></uni-icons>
+    </view>
+
+<script>
+  // 创建labelAdmin界面之后进行跳转
+  uni.navitageTo({url:'/pages/labelAdmin/labelAdmin'})
+</script>
+```
+
+## 四、数据获取
+
+1. 在page界面onLoad生命周期内进行_initLableList方法创建
+
+2. 定义云函数，获取label表中的数据
+
+   ```js
+   'use strict';
+   const db = uniCloud.database()
+   exports.main = async (event, context) => {
+   	const collection = db.collection('label')
+   	const res = await collection.get()
+   	
+   	//返回数据给客户端
+   	return {
+   		code:0,
+   		labelList:res.data
+   	}
+   };
+   ```
+
+3. page下的index界面进行数据获取，并将数据传递到tabBar组件，unicloud.callFunction方法进行数据获取
+
+   ```json
+   uniCloud.callFunction({
+       name: "get_label_list",
+       success:(res)=> {
+      	 this.labelList = res.result.labelList
+       }
+   })
+   ```
+
+4. tabBar组件内部prop属性进行数据获取
+
+   ```vue
+   props: {
+   			labelList: Array
+   		}
+   ```
+
+
+
+# 请求方法封装
+
+> 为了减少代码的冗余，优化代码的可读性，及可维护性，进行请求方法的封装
+
+## 实现流程
+
+### 一、定义公共的http请求方法
+
+1. 创建http.js文件，导出一个封装好的promise对象（内部进行uniCloud调用)
+
+   ```js
+   export default ({name,data={}})=> {
+   	/* 导出pormise对象 */
+   	return new Promise((resolve,reject) => {
+   		uni.showLoading({
+   		})
+   		uniCloud.callFunction({
+   			name,
+   			success({result}) {
+   				if(result.code === 0) {
+   					resolve(result.data)
+   				}else {
+   					uni.showToast({icon:"none",title:result.msg})
+   				}
+   			},
+   			fail(err) {
+   				reject(err)
+   			},
+   			complete() {
+   				uni.hideLoading()
+   			}
+   		})
+   	})
+   }
+   ```
+
+### 二、创建接口文件进行公共方法的调用
+
+![image-20230213114708707](https://duyi-bucket.oss-cn-beijing.aliyuncs.com/uni/202302131147814.png)
+
+### 三、方法挂载到Vue原型上，供每个界面进行使用 
+
+1. **使用webpacck的require.context方法对所有的请求函数收集**
+
+   > require.context是什么？
+   >
+   > 一个webpack的api,通过执行require.context函数获取一个特定的上下文,主要用来实现自动化导入模块,在前端工程中,如果遇到从一个文件夹引入很多模块的情况,可以使用这个api,它会遍历文件夹中的指定文件,然后自动导入,使得不需要每次显式的调用import导入模块
+
+   ```js
+   /* 批量进行文件导出 */
+   // . =>API目录的相对路径
+   // true => 是否查询子目录
+   // /.js/ => 需要查询的文件的后缀名
+   
+   const requireApi = require.context('.', true, /.js$/);
+   console.log(requireApi.keys())
+   let module = {};
+   
+   requireApi.keys().forEach((key, index) => {
+   	if (key === './index.js') return
+   	Object.assign(module, requireApi(key))
+   })
+   
+   export default module
+   ```
+
+2. **main.js进行方法挂载**
+
+   ```react
+   import module from './ajax/api/index.js'
+   Vue.prototype.$http = module;
+   ```
+
+   
+
+### 四、页面/组件内部进行方法的调用
+
+```js
+onLoad() {
+	this._intiLabelList()
+},
+methods: {
+    async _intiLabelList() {
+        this.labelList = await this.$http.get_label_list();
+    }
+}
+```
+
+
+
+
+
