@@ -1,9 +1,9 @@
 <template>
 	<view class="tab">
 		<!-- 滚动区域 -->
-		<scroll-view class="tab-scroll" scroll-x="true">
+		<scroll-view class="tab-scroll" scroll-x="true" scroll-with-animation="true" :scroll-into-view="currentIndex">
 			<view class="tab-scroll-box">
-				<view @click="navClickFn(index)" :class="{active:activeIndex === index}" v-for="(item, index) in labelList" :key="index" class="tab-scroll-item">{{ item.name}}</view>
+				<view @click="changeActiveIndex(index)" :class="{active:activeIndex === index}" v-for="(item, index) in labelList" :key="index" class="tab-scroll-item" :id="`item${index}`">{{ item.name}}</view>
 			</view>
 		</scroll-view>
 		<view class="tab-icons">
@@ -18,11 +18,17 @@
 	export default {
 		name:"TabBar",
 		props: {
-			labelList: Array
+			labelList: Array,
+			activeIndex: Number,
+		},
+		watch: {
+			activeIndex(index) {
+				this.currentIndex = `item${index}`;
+			}
 		},
 		data() {
 			return {
-		    activeIndex:0
+				currentIndex: 'item0'
 		  }
 		},
 		methods: {
@@ -31,8 +37,8 @@
 					url: "/pages/labelAdmin/labelAdmin"
 				})
 			},
-		  navClickFn(index) {
-		    this.activeIndex = index
+		  changeActiveIndex(index) {
+		    this.$emit("changeActiveIndex", index)
 		  }
 		},
 	}

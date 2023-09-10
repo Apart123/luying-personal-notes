@@ -1,5 +1,6 @@
 <template>
-	<swiper :current="activeIndex">
+	<!-- current 当前所在滑块index -->
+	<swiper :current="activeIndex" @change="changeActiveIndex">
 		<swiper-item v-for="(item, index) in labelList" :key="index">
 			<view class="swiper-item">
 				{{item.name}}
@@ -21,9 +22,9 @@
 			};
 		},
 		methods:{
-		    changeCurrentIndex(e) {
-		        const {current}  = e.detail;
-		        this.$emit('changeCurrentIndex',current)
+		    changeActiveIndex(e) {
+		        const index  = e.detail.current;
+		        this.$emit('changeActiveIndex',index)
 		    }
 		}
 	}

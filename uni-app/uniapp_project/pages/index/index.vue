@@ -1,8 +1,8 @@
 <template>
 	<view class="home-container">
 		<NavBar></NavBar>
-		<TabBar :labelList="labelList" :activeIndex="activeIndex"  @changeCurrentIndex="changeCurrentIndex"></TabBar>
-		<ArticleList :labelList="labelList" class="list-container" :activeIndex="activeIndex"  @changeCurrentIndex="changeCurrentIndex"></ArticleList>
+		<TabBar :labelList="labelList" :activeIndex="activeIndex"  @changeActiveIndex="changeActiveIndex"></TabBar>
+		<ArticleList :labelList="labelList" class="list-container" :activeIndex="activeIndex"  @changeActiveIndex="changeActiveIndex"></ArticleList>
 	</view>
 </template>
 
@@ -29,7 +29,7 @@
 				// })
 			},
 			/* 修改当前activeIndex值 */
-			changeCurrentIndex(index) {
+			changeActiveIndex(index) {
 				this.activeIndex = index
 			}
 		},
