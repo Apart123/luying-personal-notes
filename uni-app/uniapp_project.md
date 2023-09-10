@@ -409,5 +409,356 @@ methods: {
 
 
 
+# 文章列表制作
+
+## 容器组件
+
+### 一、定义articleList组件
+
+1. **使用swiper组件实现滚动效果** https://uniapp.dcloud.io/component/swiper
+
+   1. swiperItem数量动态话，当前的swiper数量应该与选项卡的数量相同
+
+      获取选项卡的数量值，根据选项卡数量进行swiperItem渲染,index界面进行labelList传递
+
+      ```react
+      		<ArticleList :labelList="labelLIst" class="list-container"></ArticleList>
+      ```
+
+   2. ArticleList内根据swiper数量进行swiperItem渲染
+
+      ```react
+       <swiper class="swiper-container">
+          <swiper-item v-for="(item,index) in labelList" :key="index">
+            <view class="swiper-item uni-bg-red">
+              <list-item></list-item>
+            </view>
+          </swiper-item>
+        </swiper>
+      ```
+
+      
+
+2. **选项卡与swiper组件联动效果实现**
+
+   1. 选项卡点击事件绑定
+
+      发送事件，调整activeIndex值，将activeIdnex值调整为父组件传递值
+
+      swiper制定current属性，值为activeIndex
+
+   2. swiper change事件监听，实现改变activeIndex属性
+
+      ```react
+       <swiper class="swiper-container" :current="activeIndex" @change="changCurrentIndex">
+          <swiper-item v-for="(item,index) in labelList" :key="index">
+            <view class="swiper-item uni-bg-red">
+              <list-item></list-item>
+            </view>
+          </swiper-item>
+        </swiper>
+        
+      <script>
+        	 methods:{
+            changeCurrentIndex(e) {
+                const {current}  = e.detail;
+                this.$emit('changeCurrentIndex',current)
+           	 }
+        		}
+      </script>
+      ```
+
+      
+
+### 二、选项卡自动进行位置调整
+
+1. scroll-view 组件添加属性 scroll-with-animation及 scroll-left 属性  https://uniapp.dcloud.io/component/scroll-view
+
+2. 动态设置scrollintoview属性，为每一项添加ID属性进行跳转切换
+
+   ```react
+    <scroll-view class="tab-scroll" scroll-x="true" :scroll-into-view="currentIndex" :scroll-with-animation="true">
+         <view class="tab-scroll-box">
+           <view :id="`item${index}`" @click="navClickFn(index)" :class="{active:activeIndex === index}" v-for="(item, index) in labelList" :key="index" class="tab-scroll-item">{{ item.name}}</view>
+         </view>
+       </scroll-view>
+   
+   <script>
+      watch:{
+   	  activeIndex(index){
+   		this.currentIndex = `item${index}`
+   	  }
+     },
+     data() {
+       return {
+   		currentIndex:''
+       }
+     }
+   </script>
+   ```
+
+3. 通过watch属性监听currIndex值改变，进行currentIndex设定
+
+
+
+## 文章卡片
+
+### 一、创建文章相关listItem组件
+
+> ​	使用scroll-view 实现竖向滚动容器制作，注意在样式定义时进行多级高度设定
+
+```vue
+<view class="list-scroll-container">
+		<scroll-view scroll-y="true" class="list-scroll">
+			<view>
+				<ListCard v-for="item in 50" :key="item"></ListCard>
+			</view>
+		</scroll-view>
+</view>
+```
+
+### 二、文章卡片组件定义
+
+1. 创建基本样式及结构
+
+2. 定义多状态卡片模块
+
+   1. 通过父组件传递mode属性进行条件编译
+
+   2. 根据条件进行选项卡卡片展示
+
+
+### 三、定义uniapp模版
+
+1. 根目录下创建index.html文件
+
+2. 参考地址：https://uniapp.dcloud.io/collocation/manifest?id=h5-template
+
+3. manifest文件的html5配置中进行index.html文件引入
+
+
+
+## 数据渲染
+
+### 一、云函数创建
+
+> ​	定义articleList云函数
+>
+> 删除不需要返回的文章详情内容
+
+```react
+'use strict';
+const db = uniCloud.database()
+exports.main = async (event, context) => {
+	const list = await db.collection('article')
+	.aggregate()
+	.project({
+		content:0
+	})
+	.end()
+	//返回数据给客户端
+	return {
+		code:0,
+		msg:"数据请求成功",
+		data:list.data
+	}
+};
+
+```
+
+### 二、前端进行数据获取
+
+1. articleList组件 => created钩子中进行数据获取
+
+   ```react
+   created () {
+       this._getArticleList()
+     }
+    methods: {
+       async _getArticleList () {
+         const articleList = await this.$http.get_article_list()
+         this.articleList = articleList
+       }
+     }
+   ```
+
+### 三、数据渲染
+
+listItem组件中进行循环渲染使用
+
+```react
+<view class="list-scroll-container">
+		<scroll-view scroll-y="true" class="list-scroll">
+			<view>
+				<ListCard :item="item" v-for="(item,index) in articleList" :key="index"></ListCard>
+			</view>
+		</scroll-view>
+	</view>
+```
+
+
+
+#### 四、根据选项卡分类进行数据渲染
+
+1. 添加全部分类选项
+
+   ```react
+   async _intiLabelList() {
+   				const labelList = await this.$http.get_label_list()
+   				this.labelList = [{name:"全部"},...labelList]
+   			}
+   ```
+
+2. 请求articleList时进行数据传递 
+
+   1. 为了保证导航数据的正确获取，调整created函数的_getArticle_list方法在watch中进行调用
+
+      ```react
+       watch: {
+          labelList(newVal,OldVal) {
+          this._getArticleList()
+          },
+        },
+      ```
+
+      
+
+3. 云函数进行数据过滤调整
+
+   ```js
+   'use strict';
+   const db = uniCloud.database()
+   exports.main = async (event, context) => {
+   	
+   	const {classify} = event
+   	
+   	let matchObj = {}
+   	
+   	if(classify !== '全部') {
+   		matchObj = {classify}
+   	}
+   	
+   	const list = await db.collection('article')
+   	.aggregate()   // 使用聚合的形式进行数据的获取
+   	.match(matchObj)   // 根据匹配条件进行数据返回
+   	.project({
+   		content:0    // 本次查询不需要返回文章详情给前端
+   	})
+   	.end()
+   	//返回数据给客户端
+   	return {
+   		code:0,
+   		msg:"数据请求成功",
+   		data:list.data
+   	}
+   };
+   
+   ```
+
+4. 前端对数据进行缓存处理
+
+   将原有接受内容数组转换为对象进行存储。每次change改变内容时进行判断操作处理
+
+   使用$set方法进行对象的页面重新渲染
+
+   ```js
+   async _getArticleList (currentIndex) {
+         const articleList = await this.$http.get_article_list({classify:this.labelList[currentIndex].name})
+         this.$set(this.articleData,currentIndex,articleList)
+       }
+   ```
+
+
+
+
+## 上拉加载更多
+
+### 一、使用uni-load-more插件
+
+下载地址：https://ext.dcloud.net.cn/plugin?id=29
+
+使用：
+
+```react
+<uni-load-more status="loading"></uni-load-more>
+```
+
+### 二、修改参数传递
+
+1. 前端添加page及size属性到云函数
+
+2. 云函数内进行返回值限制处理
+
+   ```js
+   const list = await db.collection('article')
+   		.aggregate() // 使用聚合的形式进行数据的获取
+   		.match(matchObj) // 根据匹配条件进行数据返回
+   		.project({
+   			content: 0 // 本次查询不需要返回文章详情给前端
+   		})
+   		.skip(pageSize * (page - 1)) // 首页从0开始计算
+   		.limit(pageSize) // 每页最多返回多少条数据
+   		.end()
+   ```
+
+3. 监听scroll-view的scrolltolower事件，触底时进行新的数据请求，当前的page值
+
+4. 前端调整数据处理将直接赋值变为追加数据
+
+   ```js
+    // 填充数据时改变为追加数据
+         let oldList = this.articleData[currentIndex] || []
+         oldList.push(...articleList)
+         this.$set(this.articleData, currentIndex, oldList)
+   ```
+
+
+### 三、分类页数处理
+
+1. 创建每一个分类的存储对象，含page及加载状态
+
+   ```js
+   loadData:{
+   	page:1,
+   	loading:loading
+   }
+   ```
+
+2. 处理数据全部加载完成状态
+
+   ```react
+   // 判断当前后端没有返回数据处理 
+         if(!articleList.length) {
+           this.loadData[currentIndex] = {
+             loading:"noMore",
+             page:this.loadData[currentIndex].page
+           }
+           this.$forceUpdate()
+           return 
+         }
+   ```
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+​	
+
 
 

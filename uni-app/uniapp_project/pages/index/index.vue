@@ -1,19 +1,20 @@
 <template>
 	<view class="home-container">
 		<NavBar></NavBar>
-		<TabBar  :labelList="labelList"></TabBar>
-		<ArticleList class="list-container"></ArticleList>
+		<TabBar :labelList="labelList" :activeIndex="activeIndex"  @changeCurrentIndex="changeCurrentIndex"></TabBar>
+		<ArticleList :labelList="labelList" class="list-container" :activeIndex="activeIndex"  @changeCurrentIndex="changeCurrentIndex"></ArticleList>
 	</view>
 </template>
 
 <script>
 	export default {
 		onLoad() {
-			this._intiLabelList()
+			this._intiLabelList();
 		},
 		data() {
 			return {
-				labelList: []
+				labelList: [],
+				activeIndex: 0
 			}
 		},
 		methods: {
@@ -26,6 +27,10 @@
 				// 		this.labelList = res.result.labelList
 				// 	}
 				// })
+			},
+			/* 修改当前activeIndex值 */
+			changeCurrentIndex(index) {
+				this.activeIndex = index
 			}
 		},
 	}
