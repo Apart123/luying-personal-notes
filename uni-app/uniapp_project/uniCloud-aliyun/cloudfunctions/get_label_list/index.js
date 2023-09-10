@@ -8,6 +8,7 @@ exports.main = async (event, context) => {
 	//返回数据给客户端
 	return {
 		code:0,
-		labelList:res.data
+		msg: "查询数据失败",
+		data:res.data
 	}
 };
