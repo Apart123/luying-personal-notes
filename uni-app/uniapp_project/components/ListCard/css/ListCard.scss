@@ -4,7 +4,7 @@
 	padding: 20rpx;
 	margin: 20rpx;
 	border-radius: 10rpx;
-	box-shadow: 0 0 10rpx 2rpx rgba(0,0,0,.1);
+	box-shadow: 0 0 10px 2rpx rgba(0,0,0,.1);
 	.list-card-img {
 		width: 120rpx;
 		height: 120rpx;
@@ -21,6 +21,7 @@
 		padding-left: 20rpx;
 		width: 100%;
 		.list-card-content-title {
+			width: 100%;
 			@include flex();
 			align-items: flex-start;
 			font-size: 28rpx;

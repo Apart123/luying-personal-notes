@@ -4,7 +4,7 @@
 		<scroll-view class="tab-scroll" scroll-x="true" scroll-with-animation="true" :scroll-into-view="currentIndex">
 			<view class="tab-scroll-box">
 				<view @click="changeActiveIndex(index)" :class="{active:activeIndex === index}"
-					v-for="(item, index) in labelList" :key="index" class="tab-scroll-item" :id="`item${index}`">{{ item.name}}
+					v-for="(item, index) in labelList" :key="index" class="tab-scroll-item" :id="`item${index}`">{{ item.name }}
 				</view>
 			</view>
 		</scroll-view>

@@ -1,8 +1,9 @@
 <template>
 	<view class="home-container">
 		<NavBar></NavBar>
-		<TabBar :labelList="labelList" :activeIndex="activeIndex"  @changeActiveIndex="changeActiveIndex"></TabBar>
-		<ArticleList :labelList="labelList" class="list-container" :activeIndex="activeIndex"  @changeActiveIndex="changeActiveIndex"></ArticleList>
+		<TabBar :labelList="labelList" :activeIndex="activeIndex" @changeActiveIndex="changeActiveIndex"></TabBar>
+		<ArticleList :labelList="labelList" class="list-container" :activeIndex="activeIndex"
+			@changeActiveIndex="changeActiveIndex"></ArticleList>
 	</view>
 </template>
 
@@ -19,7 +20,10 @@
 		},
 		methods: {
 			async _intiLabelList() {
-				this.labelList = await this.$http.get_label_list();
+				const labelList = await this.$http.get_label_list();
+				this.labelList = [{
+					name: "全部"
+				}, ...labelList]
 				// uniCloud.callFunction({
 				// 	name: "get_label_list",
 				// 	success:(res)=> {
@@ -41,13 +45,15 @@
 		height: 100%;
 		display: flex;
 	}
+
 	.home-container {
 		overflow: hidden;
-		flex:1;
+		flex: 1;
 		box-sizing: border-box;
-		@include flex(flex-start,column);
+		@include flex(flex-start, column);
 		align-items: inherit;
 	}
+
 	.list-container {
 		flex: 1;
 		box-sizing: border-box;

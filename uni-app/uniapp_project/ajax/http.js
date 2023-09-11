@@ -5,6 +5,7 @@ export default ({name, data = {}}) => {
 		// uniCloud 函数调用，真正的发起数据的请求
 		uniCloud.callFunction({
 			name,
+			data,
 			success({result}) {  // 请求发送成功
 				if(result.code === 0) {  // 能够拿到数据
 					resolve(result.data);

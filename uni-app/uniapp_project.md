@@ -544,13 +544,33 @@ watch: {
 
 3. manifest文件的html5配置中进行index.html文件引入
 
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="referrer" content="never" />
+		<title><%= htmlWebpackPlugin.options.title %></title>
+		<link rel="stylesheet" href="<%= BASE_URL %>static/index.<%= VUE_APP_INDEX_CSS_HASH %>.css" />
+	</head>
+	<body>
+		<noscript>
+			<strong>Please enable JavaScript to continue.</strong>
+		</noscript>
+		<div id="app"></div>
+	</body>
+</html>
+```
 
+![image-20230911164935537](https://gitee.com/luying61/note-pic/raw/master/picture/image-20230911164935537.png)
 
 ## 数据渲染
 
 ### 一、云函数创建
 
-> ​	定义articleList云函数
+> 定义articleList云函数
 >
 > 删除不需要返回的文章详情内容
 
