@@ -413,7 +413,7 @@ methods: {
 
 ## 容器组件
 
-### 一、定义articleList组件
+### 一、定义 ArticleList 组件
 
 1. **使用swiper组件实现滚动效果** https://uniapp.dcloud.io/component/swiper
 
@@ -499,13 +499,21 @@ methods: {
 
 3. 通过watch属性监听currIndex值改变，进行currentIndex设定
 
+```js
+watch: {
+	activeIndex(index) {
+		this.currentIndex = `item${index}`;
+	}
+},
+```
+
 
 
 ## 文章卡片
 
-### 一、创建文章相关listItem组件
+### 一、创建文章相关 ListItem 组件
 
-> ​	使用scroll-view 实现竖向滚动容器制作，注意在样式定义时进行多级高度设定
+> 使用scroll-view 实现竖向滚动容器制作，注意在样式定义时进行多级高度设定
 
 ```vue
 <view class="list-scroll-container">
@@ -528,7 +536,7 @@ methods: {
    2. 根据条件进行选项卡卡片展示
 
 
-### 三、定义uniapp模版
+### 三、定义 uniapp 模版
 
 1. 根目录下创建index.html文件
 

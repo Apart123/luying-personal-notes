@@ -1,9 +1,9 @@
 <template>
 	<!-- current 当前所在滑块index -->
-	<swiper :current="activeIndex" @change="changeActiveIndex">
+	<swiper class="swiper-container" :current="activeIndex" @change="changeActiveIndex">
 		<swiper-item v-for="(item, index) in labelList" :key="index">
 			<view class="swiper-item">
-				{{item.name}}
+				<ListItem></ListItem>
 			</view>
 		</swiper-item>
 	</swiper>
@@ -30,6 +30,12 @@
 	}
 </script>
 
-<style>
-
+<style scoped lang="scss">
+	.swiper-container {
+		height: 100%;
+		.swiper-item {
+			height: 100%;
+			overflow: hidden;
+		}
+	}
 </style>
