@@ -25,7 +25,7 @@
 
 ## *uni-app* 的优势
 
-![image-20230210163555719](https://gitee.com/luying61/note-pic/raw/master/picture/202302101635823.png)
+<img src="https://gitee.com/luying61/note-pic/raw/master/picture/202302101635823.png" alt="image-20230210163555719" style="zoom:80%;" />
 
 > 来源于 uni-app 官网
 
@@ -55,7 +55,7 @@
 
 
 
-![image-20230210163634428](https://duyi-bucket.oss-cn-beijing.aliyuncs.com/uni/202302101636556.png)
+<img src="https://duyi-bucket.oss-cn-beijing.aliyuncs.com/uni/202302101636556.png" alt="image-20230210163634428" style="zoom:67%;" />
 
 
 
@@ -985,7 +985,7 @@ const db = uniCloud.database()
 #### 2. 获取数据库集合引用
 
 ```js
-const collection = db.collection('unicloud-test-714') // uncloud-test-714 为数据表名称
+const collection = db.collection('unicloud-test-714') // uncloud-test-714 为数据表(集合)名称
 ```
 
 #### 3. 新增记录

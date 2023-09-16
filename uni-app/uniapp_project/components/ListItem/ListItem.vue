@@ -1,9 +1,10 @@
 <template>
 	<view class="list-scroll-container">
-		<scroll-view scroll-y="true" class="list-scroll">
+		<scroll-view scroll-y="true" class="list-scroll" @scrolltolower="loadMore">
 			<view>
 				<ListCard :item="item" v-for="item in articleList" :key="item._id">item</ListCard>
 			</view>
+			<uni-load-more status="loading"></uni-load-more>
 		</scroll-view>
 	</view>
 </template>
@@ -17,6 +18,11 @@
 		data() {
 			return {
 			};
+		},
+		methods: {
+			loadMore() {
+				this.$emit("loadMore")
+			}
 		}
 	}
 </script>
