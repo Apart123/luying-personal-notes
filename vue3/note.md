@@ -247,9 +247,9 @@ Vite（法语意为 "快速的"，发音 `/vit/`，发音同 "veet"）是一种�
 >
 > 由于 Vite 在启动的时候不需要打包，也就意味着不需要分析模块的依赖、不需要编译，因此启动速度非常快。当浏览器请求某个模块时，再根据需要对模块内容进行编译。这种按需动态变异的方式，极大的缩减了编译的时间，项目越复杂、模块越多，Vite 的优势越明显。
 >
-> 在 HMR 方面，当改动了一个模块后，仅需让浏览器重新请求该模块即可，不像 webpack 那样需要把该模块的相关依赖块全部编译一次，效率更高。
+> 在 HMR（热模块替换） 方面，当改动了一个模块后，仅需让浏览器重新请求该模块即可，不像 webpack 那样需要把该模块的相关依赖块全部编译一次，效率更高。
 >
-> 当那个需要打包到生产环境时，Vite 使用传统的 Rollup 进行打包，因此，Vite 的主要优势在**开发阶段**。另外，由于 Vite 利用的是 ES Module，因此在代码中不可以使用 CommonJS。
+> 当那个需要打包到生产环境时，Vite 使用传统的 Rollup 进行打包，因此，Vite 的主要优势在**开发阶段**。另外，由于 Vite 利用的是 ES Module，因此在代码中不可以使用CommonJS。
 
 
 
@@ -429,14 +429,14 @@ vue2在对比每一个节点时，并不知道这个节点哪些相关信息会�
 <div id="app1"></div>
 <div id="app2"></div>
 <script>  
-	createApp(根组件).use(...).mixin(...).component(...).mount("#app1")
+  createApp(根组件).use(...).mixin(...).component(...).mount("#app1")
   createApp(根组件).mount("#app2")
 </script>
 ```
 
 > 更多vue应用的api：https://v3.vuejs.org/api/application-api.html
 
-## 组件实例中的API
+## 组件实例中的 API
 
 在`vue3`中，组件实例是一个`Proxy`，它仅提供了下列成员，功能和`vue2`一样
 
@@ -467,3 +467,73 @@ vue2 和 vue3 均在相同的生命周期完成数据响应式，但做法不一
 
 
 
+# 模板中的变化
+
+## v-model
+
+`vue2`比较让人诟病的一点就是提供了两种双向绑定：`v-model`和`.sync`，在`vue3`中，去掉了`.sync`修饰符，只需要使用`v-model`进行双向绑定即可。
+
+为了让`v-model`更好的针对多个属性进行双向绑定，`vue3`作出了以下修改
+
+- 当对自定义组件使用`v-model`指令时，绑定的属性名由原来的`value`变为`modelValue`，事件名由原来的`input`变为`update:modelValue`
+
+  ```html
+  <!-- vue2 -->
+  <ChildComponent :value="pageTitle" @input="pageTitle = $event" />
+  <!-- 简写为 -->
+  <ChildComponent v-model="pageTitle" />
+  
+  <!-- vue3 -->
+  <ChildComponent
+    :modelValue="pageTitle"
+    @update:modelValue="pageTitle = $event"
+  />
+  <!-- 简写为 -->
+  <ChildComponent v-model="pageTitle" />
+  ```
+
+- 去掉了`.sync`修饰符，它原本的功能由`v-model`的参数替代
+
+  ```html
+  <!-- vue2 -->
+  <ChildComponent :title="pageTitle" @update:title="pageTitle = $event" />
+  <!-- 简写为 -->
+  <ChildComponent :title.sync="pageTitle" />
+  
+  <!-- vue3 -->
+  <ChildComponent :title="pageTitle" @update:title="pageTitle = $event" />
+  <!-- 简写为 -->
+  <ChildComponent v-model:title="pageTitle" />
+  ```
+
+- `model`配置被移除
+
+- 允许自定义`v-model`修饰符
+
+  vue2 无此功能
+
+  <img src="http://mdrs.yuanjin.tech/img/20201008163022.png" alt="image-20201008163021918" style="zoom:50%;" />
+
+## v-if v-for
+
+`v-if` 的优先级 现在高于 `v-for`
+
+## key
+
+- 当使用`<template>`进行`v-for`循环时，需要把`key`值放到`<template>`中，而不是它的子元素中
+
+- 当使用`v-if v-else-if v-else`分支的时候，不再需要指定`key`值，因为`vue3`会自动给予每个分支一个唯一的`key`
+
+  即便要手工给予`key`值，也必须给予每个分支唯一的`key`，**不能因为要重用分支而给予相同的 key**
+
+## Fragment
+
+`vue3`现在允许组件出现多个根节点
+
+
+
+## 案例
+
+组件：CheckEditor.vue
+
+​	复选框 + 文本框   
