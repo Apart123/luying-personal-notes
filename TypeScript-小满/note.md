@@ -16,7 +16,7 @@ npm install -g typescript
 
 使用 `tsc -v` 验证是否安装成功，能够正常输出 TS 的版本号即安装成功
 
-![image-20231008173202119](https://gitee.com/luying61/note-pic/raw/master/picture/image-20231008173202119.png)
+![image-20231008173202119](https://gitee.com/luying61/note-pic/raw/master/picture/image-20231008173202119.png) 
 
 ## 使用
 
@@ -370,7 +370,7 @@ const fn: Fn = (name = "jia") => {
 
 # 数组类型
 
-类型[]
+1. 类型[]
 
 ```tsx
 // number[]
@@ -383,14 +383,14 @@ const b: boolean[] = [true, false];
 const str: string[] = ["1", "2", "a", "b"];
 ```
 
-Array<类型>
+2. Array<类型>
 
 ```tsx
 const arr: Array<number> = [1, 2];
 const arr2: Array<boolean> = [true, false];
 ```
 
-定义对象数组，使用 interface
+3. 定义对象数组，使用 interface
 
 ```tsx
 interface A {
@@ -401,21 +401,21 @@ interface A {
 const aa: A[] = [{ name: "jia" }, { name: "meng", age: 16 }]
 ```
 
-多维数组
+4. 多维数组
 
 ```tsx
 const arr: number[][] = [[1], [1, 2], [3]];
 const arr2: Array<Array<number>> = [[1], [1, 2], [3]];
 ```
 
-混合数组
+5. 混合类型数组
 
 ```tsx
 const arr3: any[] = [1, "str", true];
 const arr4: [number, string, boolean] = [1, "str", true];
 ```
 
-应用于函数
+6. 应用于函数
 
 ```tsx
 function agrs(...agrs: number[]) {
@@ -425,7 +425,7 @@ function agrs(...agrs: number[]) {
 agrs(1, 2, 3);  // [ 1, 2, 3 ]
 ```
 
-arguments类数组
+7. arguments类数组
 
 ```tsx
 function Arr(...args:any): void {
@@ -450,5 +450,197 @@ interface IArguments {
 length: number;
 callee: Function;
 }
+```
+
+
+
+# 函数类型
+
+1. 函数定义类型和返回值
+
+![image-20231011221515928](https://gitee.com/luying61/note-pic/raw/master/picture/image-20231011221515928.png) 
+
+2. 箭头函数定义类型和返回值
+
+```tsx
+const add2 = (a: number, b: number): number => a + b;
+console.log(add2(1,9))
+```
+
+
+
+3. 函数默认的参数
+
+```tsx
+function add3(a: number = 2, b: number = 9) {
+  return a + b;
+}
+```
+
+
+
+4. 函数可选参数
+
+```tsx
+function add4(a?: number, b?: number) {
+  return;
+}
+```
+
+
+
+> 函数默认的参数和可选参数不能同时出现
+
+5. 函数参数是一个对象
+
+```tsx
+ interface User {
+  name: string,
+  age: number
+ }
+function user(user: User): User {
+  return user;
+}
+
+console.log(user({name: "jia", age: 18}));
+```
+
+
+
+6. 函数 this 的类型 
+
+```tsx
+interface Obj {
+  user: number[]
+  add: (this: Obj, num: number) => void
+}
+let obj: Obj = {
+  user: [1, 2, 3],
+  add(this: Obj, num: number) {
+    this.user.push(num)
+  }
+}
+obj.add(4)
+console.log(obj);  // { user: [ 1, 2, 3, 4 ], add: [Function: add] }
+```
+
+
+
+TS 可以定义 this 的类型，必须参数的第一个位置定义 this 的类型。JS 中的 this 无法作为参数使用。
+
+
+
+7. 函数重载
+
+```tsx
+let user = [1, 2, 3];
+
+function findNum(add: number[]): number[]; // 如果传入的是一个 number 类型的数组，那就对传入的数组做添加
+function findNum(id: number): number[]; // 如果如的是一个数字，那就进行查询
+function findNum(): number[];  // 如果什么都有传，就是查询全部
+
+function findNum(ids?: number | number[]): number[] {
+  if (typeof ids == "number") {
+    return user.filter(id => id == ids)
+  } else if (Array.isArray(ids)) {
+    user.push(...ids);
+    return user;
+  } else {
+    return user;
+  }
+}
+
+console.log(findNum());   
+console.log(findNum(2));
+console.log(findNum([7, 8, 9]));
+```
+
+> 重载是方法名字相同，而参数不同，返回类型可以相同也可以不同。
+>
+> 如果参数类型不同，则参数类型应设置为 **any**。
+>
+> 参数数量不同你可以将不同的参数设置为可选。
+
+
+
+# 类型断言、联合类型、交叉类型
+
+1. 联合类型 |
+
+   1. 声明变量时
+
+   ```tsx
+   let phone: string | number = 1346464;
+   phone = "1346464";
+   ```
+
+   2. 声明函数时
+
+   ```tsx
+   const word = (a: number | string) => a
+   console.log(word(123))
+   console.log(word("123"))
+   ```
+
+   
+
+2. 交叉类型 &
+
+```tsx
+interface A {
+  name: string
+}
+interface B {
+  age: number
+}
+
+const p: A & B = {
+  name: "jia",
+  age: 16
+}
+console.log(p);
+
+const user = (u: A & B) => u
+console.log(user({name: "meng", age: 18}))
+```
+
+
+
+3. 类型断言
+
+> 值 as 类型、<类型>值
+>
+> `value as string`  `<string>value`
+
+```tsx
+interface A {
+  run: string
+}
+
+interface B {
+  build: string
+}
+
+const fn = (type: A | B): string => {
+  return type.run
+}
+//这样写是有警告的应为B的接口上面是没有定义run这个属性的
+```
+
+因此，
+
+```tsx
+interface A {
+  run: string
+}
+
+interface B {
+  build: string
+}
+
+const fn = (type: A | B): string => {
+  return (type as A).run
+}
+//可以使用类型断言来推断他传入的是A接口的值
 ```
 
