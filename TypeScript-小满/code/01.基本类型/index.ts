@@ -12,9 +12,10 @@ let notANumber: number = NaN;//Nan
 let num: number = 123;//普通数字
 let infinityNumber: number = Infinity;//无穷大
 let decimal: number = 6;//十进制
-let hex: number = 0xf00d;//十六进制
-let binary: number = 0b1010;//二进制
-let octal: number = 0o744;//八进制s
+let hex: number = 0xf00d;//十六进制 61453
+let binary: number = 0b1010;//二进制 10
+let octal: number = 0o744;//八进制 484
+console.log(hex, binary, octal);
 
 
 // 3. 布尔类型
